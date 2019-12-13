@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header bg-success">
+    {{ league.name }} tabela
+  </div>
+  <div class="card-body">
+    No tu trzeba coś wpisać...
+  </div>
+</div>
+<br>
+<div class="card">
+  <div class="card-header bg-success">
+    {{ league.name }} terminarz
+  </div>
+  <div class="card-body">
+    {% for round in league.round_set.all %}
+      <b>{{ round.name }}</b>
+      {% if round.deadline %}do {{ round.deadline|date:"d.m.Y" }}{% endif %}
+      <br>
+      {% for match in round.match_set.all %}
+        {{ match.player1.first_name }} {{ match.player1.last_name }} - {{ match.player2.first_name }} {{ match.player2.last_name }}
+        <i>{{ match.print_result }}</i>
+        <br>
+      {% endfor %}
+      <br>
+      <br>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

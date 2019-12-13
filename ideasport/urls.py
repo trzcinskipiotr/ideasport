@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('jaroadmin/', admin.site.urls),
     path('', include('ideasport_app.urls')),
 ]

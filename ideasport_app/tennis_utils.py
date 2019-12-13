@@ -21,7 +21,7 @@ def is_set_result_correct(player1, player2, third_set):
     else:
         if player1 == 6 and player2 <= 4:
             return True
-        if player2 == 6 and player2 <= 4:
+        if player2 == 6 and player1 <= 4:
             return True
         if player1 == 7 and (player2 == 6 or player2 == 5):
             return True

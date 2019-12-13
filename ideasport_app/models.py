@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from ideasport_app import tennis_utils
@@ -58,6 +59,9 @@ class Match(models.Model):
                 set1_correct = tennis_utils.is_set_result_correct(self.set1_player1, self.set1_player2, False)
                 set2_correct = tennis_utils.is_set_result_correct(self.set2_player1, self.set2_player2, False)
                 set3_correct = tennis_utils.is_set_result_correct(self.set3_player1, self.set3_player2, True)
+                print(set1_correct)
+                print(set2_correct)
+                print(set3_correct)
                 if set1_correct and set2_correct and set3_correct:
                     set1_result = tennis_utils.who_win_set(self.set1_player1, self.set1_player2)
                     set2_result = tennis_utils.who_win_set(self.set2_player1, self.set2_player2)
@@ -92,4 +96,19 @@ class Match(models.Model):
     def save(self, *args, **kwargs):
         super(Match, self).save(*args, **kwargs)
         if not self.is_result_correct():
-            raise Exception('Nieprawidłowy wynik tenisowy')
+            raise ValidationError('Nieprawidłowy wynik tenisowy')
+
+    def print_result(self):
+        if self.player1_wo:
+            return '6:0 6:0 wo'
+        if self.player2_wo:
+            return '0:6 0:6 wo'
+        if self.mutual_wo:
+            return 'ob. wo'
+        if not self.set1_player1 == None:
+            set3_result = tennis_utils.who_win_set(self.set3_player1, self.set3_player2)
+            tmp = '{}:{} {}:{}'.format(self.set1_player1, self.set1_player2, self.set2_player1, self.set2_player2)
+            if set3_result != 0:
+                tmp = '{} {}:{}'.format(tmp, self.set3_player1, self.set3_player2)
+            return tmp
+        return ''

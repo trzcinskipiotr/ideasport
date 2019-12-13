@@ -4,6 +4,7 @@ from ideasport_app import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('kontakt', views.contact, name='contact'),
-    path('onas', views.about, name='about'),
+    path('kontakt/', views.contact, name='contact'),
+    path('onas/', views.about, name='about'),
+    path('liga/<int:league_id>/', views.league, name='league'),
 ]
