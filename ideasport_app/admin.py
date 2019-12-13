@@ -25,7 +25,7 @@ class PlayerFilter(SimpleListFilter):
     parameter_name = 'player'
 
     def lookups(self, request, model_admin):
-        players = User.objects.all()
+        players = User.objects.all().order_by('last_name')
         return [(player.id, '{} {}'.format(player.last_name, player.first_name)) for player in players]
 
     def queryset(self, request, queryset):

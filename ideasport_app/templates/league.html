@@ -6,7 +6,7 @@
     {{ league.name }} tabela
   </div>
   <div class="card-body">
-    No tu trzeba coś wpisać...
+    Tu będzie automatyczna tabela...
   </div>
 </div>
 <br>
@@ -21,7 +21,7 @@
       <br>
       {% for match in round.match_set.all %}
         {{ match.player1.first_name }} {{ match.player1.last_name }} - {{ match.player2.first_name }} {{ match.player2.last_name }}
-        <i>{{ match.print_result }}</i>
+        <i><b>{{ match.print_result }}</b></i>
         <br>
       {% endfor %}
       <br>
