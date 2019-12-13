@@ -59,9 +59,6 @@ class Match(models.Model):
                 set1_correct = tennis_utils.is_set_result_correct(self.set1_player1, self.set1_player2, False)
                 set2_correct = tennis_utils.is_set_result_correct(self.set2_player1, self.set2_player2, False)
                 set3_correct = tennis_utils.is_set_result_correct(self.set3_player1, self.set3_player2, True)
-                print(set1_correct)
-                print(set2_correct)
-                print(set3_correct)
                 if set1_correct and set2_correct and set3_correct:
                     set1_result = tennis_utils.who_win_set(self.set1_player1, self.set1_player2)
                     set2_result = tennis_utils.who_win_set(self.set2_player1, self.set2_player2)
