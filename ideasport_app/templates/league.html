@@ -34,13 +34,13 @@
               <td style="border-left: 1px solid #dee2e6">{{ score.bmatches }}</td>
               <td>{{ score.bpoints }}</td>
               <td>
-                {% if score.bpoints %}
+                {% if score.bpoints != None %}
                   {% if score.bsets > 0 %}+{% endif %}{{ score.bsets }}
                   ({{ score.bsets_win }}-{{ score.bsets_lost }})
                 {% endif %}
               </td>
               <td>
-                {% if score.bpoints %}
+                {% if score.bpoints != None %}
                   {% if score.bgems > 0 %}+{% endif %}{{ score.bgems }}
                   ({{ score.bgems_win }}-{{ score.bgems_lost }})
                 {% endif %}

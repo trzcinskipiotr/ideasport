@@ -91,7 +91,6 @@ class League(models.Model):
         matches = Match.objects.filter(round__league=self, player1__in=player_ids, player2__in=player_ids)
         scores = self._create_table_from_matches(matches)
         sorted_scores = sorted(scores.values(), key=cmp_to_key(compare_by_points_sets_gems), reverse=True)
-        print(sorted_scores)
         new_split = []
         for score in sorted_scores:
             for split_entry in split:
@@ -109,12 +108,21 @@ class League(models.Model):
 
     def _merge_splits(self, splits):
         done_table = []
-        place = 1
+        place = 0
+        index = 0
         for split in splits:
+            last_result = None
             for score in split:
+                index = index + 1
+                if last_result and 'bpoints' in score and 'bsets' in score and 'bgems' in score:
+                    if score['bpoints'] != last_result[0] or score['bsets'] != last_result[1] or score['bgems'] != last_result[2]:
+                        place = index
+                else:
+                    place = index
+                if 'bpoints' in score and 'bsets' in score and 'bgems' in score:
+                    last_result = [score['bpoints'], score['bsets'], score['bgems']]
                 score['place'] = place
                 done_table.append(score)
-                place = place + 1
         return done_table
 
     def make_table(self):
