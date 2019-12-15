@@ -6,7 +6,50 @@
     {{ league.name }} tabela
   </div>
   <div class="card-body">
-    Tu będzie automatyczna tabela...
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th colspan="4"></th>
+            <th style="border-left: 1px solid #dee2e6" scope="col" colspan="4">Mała tabela (bezpośrednio)</th>
+          </tr>
+          <tr>
+            <th scope="col">Msc.</th>
+            <th scope="col">Zawodnik</th>
+            <th scope="col">Mecze</th>
+            <th scope="col">Punkty</th>
+            <th style="border-left: 1px solid #dee2e6" scope="col">Mecze</th>
+            <th scope="col">Punkty</th>
+            <th scope="col">Sety</th>
+            <th scope="col">Gemy</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for score in table %}
+            <tr>
+              <th scope="row">{{ score.place }}.</th>
+              <td>{{ score.name }}</td>
+              <td>{{ score.matches }}</td>
+              <td><strong>{{ score.points }}</strong></td>
+              <td style="border-left: 1px solid #dee2e6">{{ score.bmatches }}</td>
+              <td>{{ score.bpoints }}</td>
+              <td>
+                {% if score.bpoints %}
+                  {% if score.bsets > 0 %}+{% endif %}{{ score.bsets }}
+                  ({{ score.bsets_win }}-{{ score.bsets_lost }})
+                {% endif %}
+              </td>
+              <td>
+                {% if score.bpoints %}
+                  {% if score.bgems > 0 %}+{% endif %}{{ score.bgems }}
+                  ({{ score.bgems_win }}-{{ score.bgems_lost }})
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <br>

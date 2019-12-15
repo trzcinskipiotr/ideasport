@@ -37,4 +37,4 @@ class PlayerFilter(SimpleListFilter):
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
     list_filter = (PlayerFilter,)
-    list_display = ('id', 'round', 'player1', 'player2', 'player1_wo', 'player2_wo', 'mutual_wo', 'set1_player1', 'set1_player2', 'set2_player1', 'set2_player2', 'set3_player1', 'set3_player2')
+    list_display = ('id', 'round', 'player1_fullname', 'player2_fullname', 'player1_wo', 'player2_wo', 'mutual_wo', 'set1_player1', 'set1_player2', 'set2_player1', 'set2_player2', 'set3_player1', 'set3_player2')

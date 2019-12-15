@@ -21,5 +21,6 @@ def about(request):
 def league(request, league_id):
     seasons = Season.objects.all()
     league = League.objects.get(id=league_id)
-    context = {'seasons': seasons, 'league': league}
+    table = league.make_table()
+    context = {'seasons': seasons, 'league': league, 'table': table}
     return render(request, 'league.html', context)

@@ -39,3 +39,18 @@ def who_win_set(player1, player2):
     if player2 > player1:
         return 2
     return 0
+
+def compare_by_points_sets_gems(score1, score2):
+    if score1['points'] > score2['points']:
+        return 1
+    if score2['points'] > score1['points']:
+        return -1
+    if score1['sets'] > score2['sets']:
+        return 1
+    if score2['sets'] > score1['sets']:
+        return -1
+    if score1['gems'] > score2['gems']:
+        return 1
+    if score2['gems'] > score1['gems']:
+        return -1
+    return 0
