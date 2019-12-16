@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="card">
@@ -9,7 +10,8 @@
     <center>
       <br><b>Dziękujęmy za odwiedzenie naszej strony internetowej!</b><br><br>
       Na stronie znajdują się aktualne wyniki oraz terminarz wszystkich lig.<br><br>
-      Zachęcamy także do odwiedzenia nas na Facebooku.<br><br>
+      Zachęcamy także do odwiedzenia nas na <a href="https://www.facebook.com/TSIdeaSport/" target="_blank">Facebooku</a>.<br>
+      <a href="https://www.facebook.com/TSIdeaSport/" target="_blank"><img width="100px" src="{% static "facebook.jpg" %}" alt="Facebook"></a><br>
     </center>
   </div>
 </div>
