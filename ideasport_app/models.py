@@ -263,6 +263,11 @@ class Match(models.Model):
             gems2_win = 12
             sets1_lost = 2
             gems1_lost = 12
+        if self.mutual_wo:
+            gems1_lost = 12
+            gems2_lost = 12
+            sets1_lost = 2
+            sets2_lost = 2
         set1_result = tennis_utils.who_win_set(self.set1_player1, self.set1_player2)
         set2_result = tennis_utils.who_win_set(self.set2_player1, self.set2_player2)
         set3_result = tennis_utils.who_win_set(self.set3_player1, self.set3_player2)
