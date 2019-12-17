@@ -296,10 +296,10 @@ class Match(models.Model):
             sets2_win = 1
             sets1_lost = 1
             sets2_lost = 2
-            gems1_win = self.set1_player1 + self.set2_player1
+            gems1_win = self.set1_player1 + self.set2_player1 + 1
             gems1_lost = self.set1_player2 + self.set2_player2
             gems2_win = self.set1_player2 + self.set2_player2
-            gems2_lost = self.set1_player1 + self.set2_player1
+            gems2_lost = self.set1_player1 + self.set2_player1 + 1
         if set3_result == 2:
             points2 = 4
             points1 = 2
@@ -308,7 +308,7 @@ class Match(models.Model):
             sets1_lost = 2
             sets2_lost = 1
             gems1_win = self.set1_player1 + self.set2_player1
-            gems1_lost = self.set1_player2 + self.set2_player2
-            gems2_win = self.set1_player2 + self.set2_player2
+            gems1_lost = self.set1_player2 + self.set2_player2 + 1
+            gems2_win = self.set1_player2 + self.set2_player2 + 1
             gems2_lost = self.set1_player1 + self.set2_player1
         return (points1, points2, sets1_win, sets1_lost, sets2_win, sets2_lost, gems1_win, gems1_lost, gems2_win, gems2_lost)
