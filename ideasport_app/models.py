@@ -6,6 +6,7 @@ from django.db import models
 
 from ideasport_app import tennis_utils
 from ideasport_app.tennis_utils import compare_by_points_sets_gems
+from sorl.thumbnail import ImageField
 
 
 class Season(models.Model):
@@ -312,3 +313,24 @@ class Match(models.Model):
             gems2_win = self.set1_player2 + self.set2_player2 + 1
             gems2_lost = self.set1_player1 + self.set2_player1
         return (points1, points2, sets1_win, sets1_lost, sets2_win, sets2_lost, gems1_win, gems1_lost, gems2_win, gems2_lost)
+
+class Gallery(models.Model):
+    name = models.CharField(max_length=100)
+    order = models.IntegerField(null=True, blank=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+class Photo(models.Model):
+    gallery = models.ForeignKey(Gallery, on_delete=models.PROTECT, null=False)
+    name = models.CharField(max_length=100, null=False, default='', blank=True)
+    description = models.CharField(max_length=1000, null=False, default='', blank=True)
+    order = models.IntegerField(null=True, blank=True, db_index=True)
+    image = ImageField()
+
+    def __str__(self):
+        return self.name
+
+class Log(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    message = models.TextField()

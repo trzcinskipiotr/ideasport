@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">Nie ma możliwości edycji raz wpisanego wyniku. Wszystkie korekty w już wpisanych wynikach należy zgłaszać do ogranizatorów.</div>
+<div class="card" xmlns="http://www.w3.org/1999/html">
+  <div class="card-header bg-success">
+    Moje wyniki
+  </div>
+  <div class="card-body">
+    <br>
+    {% if success %}
+      <div class="alert alert-success" role="alert">{{ success }}</div>
+    {% endif %}
+    {% if error %}
+      <div class="alert alert-danger" role="alert">{{ error }}</div>
+    {% endif %}
+    {% if user.is_authenticated %}
+      {% for match in matches %}
+        <div style="float: left">
+          {{ match.player1_fullname }} - {{ match.player2_fullname }}
+        </div>
+        {% if match.print_result %}
+          <div style="float: left">
+            <i><b>&nbsp;{{ match.print_result }}</b></i>
+          </div>
+        {% else %}
+          <form style="float: left; margin-left: 10px" method="POST" action="{% url 'myresults' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ match.id }}" name="matchid"/>
+            <input type="text" style="width: 25px" name="set1_player1" />
+            <input type="text" style="width: 25px" name="set1_player2" />
+            <input type="text" style="width: 25px" name="set2_player1" />
+            <input type="text" style="width: 25px" name="set2_player2" />
+            <input type="text" style="width: 25px" name="set3_player1" />
+            <input type="text" style="width: 25px" name="set3_player2" />
+            <button type="submit" class="btn btn-success">Zapisz</button>
+          </form>
+        {% endif %}
+        <br>
+        <br>
+      {% empty %}
+        <div class="alert alert-danger" role="alert">Nie uczestniczysz w tej edycji ligi.</div>
+      {% endfor %}
+    {% else %}
+      <div class="alert alert-danger" role="alert">Strona tylko dla zalogowanych użytkowników.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

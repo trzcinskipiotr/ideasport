@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">Hasło musi mieć przynajmniej 8 znaków. Nie należy podawać takiego samego hasła jak do ważnych maili czy dostępów bankowych.</div>
+<div class="card" xmlns="http://www.w3.org/1999/html">
+  <div class="card-header bg-success">
+    Zmiana hasła
+  </div>
+  <div class="card-body">
+    <div style="text-align: center;">
+      <br>
+      {% if user.is_authenticated %}
+        {% if error %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+          <div class="alert alert-success" role="alert">{{ success }}</div>
+        {% else %}
+          <form name="LoginForm" action="{% url 'changepass' %}" method="post">
+            {% csrf_token %}
+            <center>
+              <table>
+                <tr>
+                  <td>Nowe hasło&nbsp;&nbsp;</td>
+                  <td><input type="password" id="password1" name="password1"  placeholder="Hasło..."></td>
+                </tr>
+                <tr>
+                  <td>Potwierdź&nbsp;&nbsp;</td>
+                  <td><input type="password" id="password2" name="password2"  placeholder="Hasło..."></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><br><button type="submit" class="btn btn-success">Zmień hasło</button></td>
+                </tr>
+              </table>
+            </center>
+          </form>
+        {% endif %}
+      {% else %}
+        <div class="alert alert-danger" role="alert">Strona tylko dla zalogowanych użytkowników.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

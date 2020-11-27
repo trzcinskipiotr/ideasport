@@ -6,7 +6,7 @@ from django.contrib.admin import SimpleListFilter
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from ideasport_app.models import Season, League, Round, Match
+from ideasport_app.models import Season, League, Round, Match, Gallery, Photo, Log
 
 
 @admin.register(Season)
@@ -49,3 +49,21 @@ class MatchAdmin(admin.ModelAdmin):
         if db_field.name == "player1" or db_field.name == "player2":
             return UserFullNameChoiceField(User.objects.exclude(first_name__exact='').order_by('last_name'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date_created', 'message')
+    search_fields = ('message',)
+    readonly_fields = ('message',)
+
+    def has_delete_permission(self, request, obj=None):
+        return False

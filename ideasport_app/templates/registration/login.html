@@ -1,0 +1,42 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">Login jest w formie: "imie.nazwisko". W przypadku pierwszego logowania po hasło należy zgłosić się do organizatorów.</div>
+<div class="card" xmlns="http://www.w3.org/1999/html">
+  <div class="card-header bg-success">
+    Logowanie
+  </div>
+  <div class="card-body">
+    <div style="text-align: center;">
+      <br>
+      {% if user.is_authenticated %}
+        <div class="alert alert-success" role="alert">Jesteś już zalogowany</div>
+      {% else %}
+        <form name="LoginForm" action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          <center>
+            {% if request.method == 'POST' %}
+              <div class="alert alert-danger" role="alert">
+                Błędny login lub hasło.
+              </div>
+            {% endif %}
+            <table>
+              <tr>
+                <td>Login&nbsp;&nbsp;</td>
+                <td><input type="text" id="username" name="username"  placeholder="Login..."></td>
+              </tr>
+              <tr>
+                <td>Hasło&nbsp;&nbsp;</td>
+                <td><input type="password" id="password" name="password"  placeholder="Hasło..."></td>
+              </tr>
+              <tr>
+                <td colspan="2"><br><button type="submit" class="btn btn-success">Zaloguj</button></td>
+              </tr>
+            </table>
+          </center>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

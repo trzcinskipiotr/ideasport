@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'ideasport_app'
+    'ideasport_app',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ideasport_app.context_processors.seasons'
             ],
         },
     },
@@ -122,3 +124,19 @@ USE_TZ = True
 STATIC_URL = '/djangostatic/'
 STATIC_ROOT = '/ideasport_staticfiles/'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600
+
+MEDIA_URL = '/ideamedia/'
+MEDIA_ROOT = '/ideasport_media/'
+
+
+LOGIN_REDIRECT_URL = 'myresults'
+LOGOUT_REDIRECT_URL = 'mylogout'
+
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+MAIL_SENDER = os.environ.get('MAIL_SENDER')
+MAIL_HOST = os.environ.get('MAIL_HOST')
+MAIL_PORT = int(os.environ.get('MAIL_PORT'))
+MAIL1_ADDRESS = os.environ.get('MAIL1_ADDRESS')
+MAIL2_ADDRESS = os.environ.get('MAIL2_ADDRESS')

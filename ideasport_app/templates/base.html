@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static "app.css" %}">
   <link rel="stylesheet" href="{% static "fontawesome/css/all.css" %}">
+  <link type="text/css" rel="stylesheet" href="{% static 'lightgallery/css/lightgallery.css' %}" />
+  <link type="text/css" rel="stylesheet" href="{% static 'lightgallery/css/lg-transitions.min.css' %}" />
 </head>
 <body>
 
@@ -32,6 +34,23 @@
     </ul>
 
     <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+      {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Moje konto</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'myresults' %}">Moje wyniki</a>
+            <a class="dropdown-item" href="{% url 'changepass' %}">Zmiana hasła</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>
+          </div>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Zaloguj</a>
+        </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'gallery' %}">Galerie</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'about' %}">O nas</a>
       </li>

@@ -3,4 +3,5 @@ Django==3.0
 gunicorn==20.0.4
 pytz==2019.3
 setproctitle==1.1.10
+git+git://github.com/jazzband/sorl-thumbnail@4fe1854
 sqlparse==0.3.0
