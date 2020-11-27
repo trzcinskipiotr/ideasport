@@ -29,7 +29,7 @@ def league(request, league_id):
 def myresults(request):
     context = {}
     if request.user.is_authenticated:
-        last_season = Season.objects.order_by('-order').last()
+        last_season = Season.objects.order_by('-order').first()
         matches = Match.objects.filter(round__league__season=last_season).filter(Q(player1=request.user) | Q(player2=request.user))
         context = {'matches': matches, 'last_season': last_season}
         if request.method == 'POST':
