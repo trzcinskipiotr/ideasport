@@ -13,6 +13,9 @@ class Season(models.Model):
     name = models.CharField(max_length=100)
     order = models.IntegerField(null=True, blank=True, db_index=True)
 
+    class Meta:
+        ordering = ['order']
+
     def __str__(self):
         return self.name
 
@@ -20,6 +23,7 @@ class League(models.Model):
     season = models.ForeignKey(Season, on_delete=models.PROTECT)
     order = models.IntegerField(null=True, blank=True, db_index=True)
     name = models.CharField(max_length=100)
+    covid19_canceled = models.BooleanField(null=False, default=False, blank=True)
 
     def _create_table_from_matches(self, matches):
         scores = {}
@@ -137,6 +141,10 @@ class League(models.Model):
     def __str__(self):
         return '{} {}'.format(self.season.name, self.name)
 
+    class Meta:
+        ordering = ['order']
+
+
 class Round(models.Model):
     league = models.ForeignKey(League, on_delete=models.PROTECT)
     order = models.IntegerField(null=True, blank=True, db_index=True)
@@ -145,6 +153,9 @@ class Round(models.Model):
 
     def __str__(self):
         return '{} {} {}'.format(self.league.season.name, self.league.name, self.name)
+
+    class Meta:
+        ordering = ['order']
 
 
 class Match(models.Model):

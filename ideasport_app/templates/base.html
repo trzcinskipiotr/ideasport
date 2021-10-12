@@ -21,16 +21,27 @@
   <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
 
     <ul class="navbar-nav w-100 justify-content-center">
-      {% for season in seasons %}
-        <li class="nav-item dropdown justify-content-center">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ season.name }}</a>
-          <div class="dropdown-menu">
-            {% for league in season.league_set.all %}
-              <a class="dropdown-item" href="{% url 'league' league.id %}">{{ league.name }}</a>
-            {% endfor %}
-          </div>
-        </li>
-      {% endfor %}
+      <li class="nav-item dropdown justify-content-center">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Archiwum</a>
+        <div class="dropdown-menu">
+          {% for season in seasons %}
+            {% if season != current_season %}
+              <a class="dropdown-item" href="#"><b>{{ season.name }}</b></a>
+              {% for league in season.league_set.all %}
+                <a class="dropdown-item" href="{% url 'league' league.id %}">{{ league.name }}</a>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </li>
+      <li class="nav-item dropdown justify-content-center">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ current_season.name }}</a>
+        <div class="dropdown-menu">
+          {% for league in current_season.league_set.all %}
+            <a class="dropdown-item" href="{% url 'league' league.id %}">{{ league.name }}</a>
+          {% endfor %}
+        </div>
+      </li>
     </ul>
 
     <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
