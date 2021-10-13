@@ -1,9 +1,13 @@
+from datetime import datetime
+
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
+from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
 
 from ideasport_app.mail_utils import send_mail
-from ideasport_app.models import Season, League, Gallery, Match
+from ideasport_app.models import Season, League, Gallery, Match, Round
 
 
 def index(request):
@@ -84,3 +88,40 @@ def changepass(request):
         return render(request, 'changepass.html')
     else:
         return render(request, 'changepass.html', {'error': 'Strona tylko dla zalogowanych użytkowników.'})
+
+def newleague(request):
+    GET = request.GET
+    if ('users' in GET) and ('rounds' in GET) and ('matches' in GET):
+      users = int(GET['users'])
+      rounds = int(GET['rounds'])
+      matches = int(GET['matches'])
+      all_users = User.objects.all().order_by('last_name')
+      rounds_names = ['', 'I KOLEJKA', 'II KOLEJKA', 'III KOLEJKA', 'IV KOLEJKA', 'V KOLEJKA', 'VI KOLEJKA', 'VII KOLEJKA', 'VIII KOLEJKA', 'IX KOLEJKA', 'X KOLEJKA', 'XI KOLEJKA', 'XII KOLEJKA', 'XIII KOLEJKA', 'XIV KOLEJKA', 'XV KOLEJKA']
+      context = {'prepare_form': False, 'users': users, 'rounds': rounds, 'matches': matches, 'all_users': all_users, 'rounds_names': rounds_names}
+      return render(request, 'newleague.html', context)
+    else:
+      return render(request, 'newleague.html', {'prepare_form': True})
+
+def newleaguepost(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        POST = request.POST
+        max_season = Season.objects.all().order_by('order').last()
+        rounds = int(POST['rounds'])
+        matches = int(POST['matches'])
+        users = int(POST['users'])
+        with transaction.atomic():
+            league = League.objects.create(name=POST['name'], order=int(POST['order']), season=max_season)
+            for round_index in range(1, rounds + 1):
+                deadline = datetime.strptime(POST['round' + str(round_index) + '_deadline'], '%d.%m.%Y')
+                round = Round.objects.create(league=league, order=round_index, name=POST['round' + str(round_index) + '_name'], deadline=deadline)
+                for match_index in range(1, matches + 1):
+                    user_home_index = POST['round' + str(round_index) + '_match' + str(match_index) + '_home']
+                    user_away_index = POST['round' + str(round_index) + '_match' + str(match_index) + '_away']
+                    user_home_id = POST['user' + user_home_index]
+                    user_away_id = POST['user' + user_away_index]
+                    user_home = User.objects.get(id=user_home_id)
+                    user_away = User.objects.get(id=user_away_id)
+                    match = Match.objects.create(round=round, player1=user_home, player2=user_away)
+        return render(request, 'newleaguepost.html')
+    else:
+        return render(request, 'newleague.html', {'prepare_form': True})

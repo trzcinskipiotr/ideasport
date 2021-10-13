@@ -11,5 +11,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('mojewyniki/', views.myresults, name='myresults'),
     path('wylogowanie/', views.mylogout, name='mylogout'),
-    path('zmianahasla/', views.changepass, name='changepass')
+    path('zmianahasla/', views.changepass, name='changepass'),
+    path('nowaliga/', views.newleague, name='newleague'),
+    path('nowaligapost/', views.newleaguepost, name='newleaguepost'),
 ]

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load range %}
+
+{% block content %}
+{% if user.is_authenticated  and user.is_superuser %}
+  <div class="card">
+    <div class="card-header bg-success">
+      Dodaj nową ligę.
+    </div>
+    <div class="card-body">
+      {% if not prepare_form %}
+        <div class="alert alert-success" role="alert">Daty wpisz w formacie dd.mm.yyyy (na przykład 10.11.2021 oznacza 10 listopada 2021).</div>
+        <div class="alert alert-success" role="alert">W sekcji mecze wpisz numery zawodników od 1 do {{ users }}.</div>
+        <div class="alert alert-success" role="alert">Podczas wpisywania meczy do następnego pola można szybko przejść klawiszem TAB.</div>
+        <form method="POST" action="{% url 'newleaguepost' %}">
+          {% csrf_token %}
+          <input type="hidden" name="matches" value="{{ matches }}" />
+          <input type="hidden" name="rounds" value="{{ rounds }}" />
+          <input type="hidden" name="users" value="{{ users }}" />
+          <table>
+            <tr>
+              <td width="150px"><b>Nazwa ligi</b>:</td>
+              <td><input type="text" name="name" /></td>
+            </tr>
+            <tr>
+              <td><b>Kolejność</b>:</td>
+              <td><input type="text" name="order" /></td>
+            </tr>
+          </table>
+          <br><br>
+
+          <h3>Zawodnicy:</h3>
+          <table>
+            {% for index in 1|range_plus:users %}
+              <tr>
+                <td width="150px"><b>Zawodnik {{ index }}</b>:</td>
+                <td>
+                  <select name="user{{ index }}">
+                    {% for user in all_users %}
+                      <option value="{{ user.id }}">{{ user.last_name }} {{ user.first_name }} ({{ user.username }})</option>
+                    {% endfor %}
+                  </select>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+          <br>
+          <br>
+          {% for index in 1|range_plus:rounds %}
+            <h3>Kolejka {{ index }}:</h3>
+            <table>
+              <tr>
+                <td width="150px"><b>Nazwa</b>:</td>
+                <td><input type="text" name="round{{ index }}_name" value="{{ rounds_names|array_item:index }}" /></td>
+              </tr>
+              <tr>
+                <td><b>Data</b>:</td>
+                <td><input type="text" name="round{{ index }}_deadline" /></td>
+              <tr>
+              <tr>
+                <td><b>Mecze</b>:</td>
+                <td>
+                  <br>
+                  {% for match_index in 1|range_plus:matches %}
+                    <input style="width: 40px" type="text" name="round{{ index }}_match{{ match_index }}_home" /> -
+                    <input style="width: 40px" type="text" name="round{{ index }}_match{{ match_index }}_away" /><br>
+                  {% endfor %}
+                </td>
+              </tr>
+            </table>
+            <br>
+            <br>
+          {% endfor %}
+          <button type="submit" name="submit">Dodaj ligę</button>
+        </form>
+      {% else %}
+        <form method="GET" action="{% url 'newleague' %}">
+          <table>
+            <tr>
+              <td width="250px"><b>Ilość zawodników</b>:</td>
+              <td><input style="width: 50px" type="text" name="users" /></td>
+            </tr>
+            <tr>
+              <td><b>Ilość kolejek</b>:</td>
+              <td><input style="width: 50px" type="text" name="rounds" /></td>
+            </tr>
+            <tr>
+              <td><b>Ilość meczy w kolejce</b>:</td>
+              <td><input style="width: 50px" type="text" name="matches" /></td>
+            </tr>
+          </table>
+          <br>
+          <button type="submit" name="submit">Dalej</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-danger" role="alert">Strona dostępna tylko dla administratorów.</div>
+{% endif %}
+{% endblock %}
